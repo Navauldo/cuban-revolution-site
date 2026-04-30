@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cuban Revolution & Its Caribbean Impact</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #C8102E;
+  --darkred: #8B0000;
+  --black: #0A0A0A;
+  --offblack: #111111;
+  --cream: #F5F0E8;
+  --gold: #D4A017;
+  --grey: #2A2A2A;
+  --lightgrey: #888;
+  --white: #FAFAFA;
+  --bg: #0A0A0A;
+  --bg2: #111111;
+  --text: #F5F0E8;
+  --text-muted: rgba(245,240,232,0.65);
+  --text-body: rgba(245,240,232,0.82);
+  --border: rgba(200,16,46,0.25);
+  --card-bg: rgba(255,255,255,0.025);
+  --card-border: rgba(255,255,255,0.06);
+  --nav-bg: rgba(10,10,10,0.95);
+  --input-bg: rgba(255,255,255,0.04);
+  --input-border: rgba(255,255,255,0.08);
+  --pull-bg: rgba(200,16,46,0.05);
+  --map-ocean: #0a0f1a;
+  --transition: 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+[data-theme="light"] {
+  --bg: #F0EAD6;
+  --bg2: #E8E0C8;
+  --text: #1a0a0a;
+  --text-muted: rgba(26,10,10,0.6);
+  --text-body: rgba(26,10,10,0.82);
+  --border: rgba(200,16,46,0.3);
+  --card-bg: rgba(255,255,255,0.6);
+  --card-border: rgba(200,16,46,0.15);
+  --nav-bg: rgba(240,234,214,0.96);
+  --input-bg: rgba(255,255,255,0.7);
+  --input-border: rgba(26,10,10,0.15);
+  --pull-bg: rgba(200,16,46,0.06);
+  --map-ocean: #b8ccd8;
+  --lightgrey: #666;
+  --white: #1a0a0a;
+  --cream: #1a0a0a;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Source Serif 4', Georgia, serif;
+  overflow-x: hidden;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:0.35;
+}
+
+/* ── PARTICLE CANVAS ── */
+#particleCanvas {
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;opacity:0.5;
+  transition: opacity var(--transition);
+}
+[data-theme="light"] #particleCanvas { opacity:0.2; }
+
+/* ── NAV ── */
+nav {
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:var(--nav-bg);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(16px);
+  padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;
+  transition:background var(--transition), border-color var(--transition);
+}
+.nav-logo {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.05rem;letter-spacing:3px;
+  color:var(--red);text-decoration:none;
+  white-space:nowrap;
+}
+.nav-links{display:flex;gap:0;align-items:center;}
+.nav-links a {
+  color:var(--text-muted);text-decoration:none;
+  font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;
+  padding:0 11px;height:64px;display:flex;align-items:center;
+  transition:color 0.2s,background 0.2s;
+  font-family:'Source Serif 4',serif;font-weight:300;
+  border-left:1px solid rgba(128,128,128,0.08);
+}
+.nav-links a:hover,.nav-links a.active{color:var(--red);background:rgba(200,16,46,0.06);}
+.nav-right{display:flex;align-items:center;gap:12px;}
+
+/* Theme Toggle */
+.theme-toggle {
+  background:none;border:1px solid var(--border);
+  color:var(--text);cursor:pointer;
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;transition:all 0.2s;
+  flex-shrink:0;
+}
+.theme-toggle:hover{border-color:var(--red);color:var(--red);}
+
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;}
+.hamburger span{width:24px;height:1.5px;background:var(--text);transition:all 0.3s;}
+
+/* ── SCROLLYTELLING PROGRESS ── */
+.scroll-progress-bar {
+  position:fixed;top:64px;left:0;right:0;height:2px;
+  background:rgba(128,128,128,0.1);z-index:999;
+}
+.scroll-progress-fill {
+  height:100%;background:var(--red);width:0%;
+  transition:width 0.1s linear;
+}
+
+/* ── HERO ── */
+#home {
+  min-height:100vh;position:relative;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 60px 80px;overflow:hidden;
+}
+.hero-bg {
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 70% 40%,rgba(139,0,0,0.28) 0%,transparent 60%),
+    radial-gradient(ellipse at 20% 80%,rgba(200,16,46,0.15) 0%,transparent 50%),
+    linear-gradient(160deg,var(--bg) 0%,rgba(26,5,5,0.9) 50%,var(--bg) 100%);
+  transition:background var(--transition);
+}
+[data-theme="light"] .hero-bg {
+  background:
+    radial-gradient(ellipse at 70% 40%,rgba(200,16,46,0.18) 0%,transparent 60%),
+    radial-gradient(ellipse at 20% 80%,rgba(200,16,46,0.1) 0%,transparent 50%),
+    linear-gradient(160deg,#F0EAD6 0%,#e8d5c0 50%,#F0EAD6 100%);
+}
+.hero-stars{position:absolute;inset:0;overflow:hidden;}
+.star{position:absolute;width:2px;height:2px;background:var(--cream);border-radius:50%;animation:twinkle 3s infinite alternate;}
+@keyframes twinkle{from{opacity:0.08;}to{opacity:0.6;}}
+[data-theme="light"] .star{background:var(--red);}
+
+.hero-stripe{position:absolute;top:0;right:0;width:8px;height:100%;background:var(--red);}
+.hero-stripe::before{content:'';position:absolute;top:0;right:8px;width:3px;height:100%;background:rgba(200,16,46,0.3);}
+
+/* Propaganda poster halftone effect on hero */
+.hero-halftone {
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(200,16,46,0.04) 1px,transparent 1px);
+  background-size:20px 20px;
+  pointer-events:none;
+}
+
+.hero-eyebrow {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:0.85rem;letter-spacing:6px;
+  color:var(--red);margin-bottom:24px;
+  position:relative;z-index:2;
+  animation:fadeUp 1s ease 0.2s both;
+}
+.hero-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,7vw,7rem);
+  font-weight:900;line-height:0.95;
+  color:var(--text);position:relative;z-index:2;
+  animation:fadeUp 1s ease 0.4s both;
+  transition:color var(--transition);
+}
+.hero-title .accent{color:var(--red);font-style:italic;}
+.hero-period {
+  display:inline-block;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1rem,2vw,1.6rem);
+  letter-spacing:4px;color:var(--gold);
+  margin-top:12px;
+  position:relative;z-index:2;
+  animation:fadeUp 1s ease 0.55s both;
+}
+.hero-subtitle {
+  font-size:1.05rem;font-weight:300;font-style:italic;
+  color:var(--text-muted);margin-top:16px;
+  max-width:480px;line-height:1.7;
+  position:relative;z-index:2;
+  animation:fadeUp 1s ease 0.6s both;
+}
+.hero-scroll {
+  position:relative;z-index:2;margin-top:48px;
+  display:flex;align-items:center;gap:16px;
+  animation:fadeUp 1s ease 0.8s both;
+}
+.hero-scroll span{font-family:'Bebas Neue',sans-serif;letter-spacing:4px;font-size:0.75rem;color:var(--lightgrey);}
+.scroll-line{width:60px;height:1px;background:var(--red);animation:expandLine 1.5s ease 1.2s both;}
+@keyframes expandLine{from{width:0}to{width:60px}}
+.hero-year{
+  position:absolute;right:60px;bottom:80px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(6rem,18vw,18rem);line-height:1;
+  color:rgba(200,16,46,0.05);letter-spacing:-5px;
+  z-index:1;user-select:none;
+  animation:fadeIn 2s ease 1s both;
+}
+[data-theme="light"] .hero-year{color:rgba(200,16,46,0.08);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ── SCROLLYTELLING CHAPTER BREAKS ── */
+.chapter-break {
+  position:relative;
+  height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  background:var(--bg);
+}
+.chapter-break-bg {
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--darkred) 0%,#1a0000 50%,var(--bg) 100%);
+  opacity:0;
+  transition:opacity 0.8s ease;
+}
+.chapter-break.in-view .chapter-break-bg {opacity:1;}
+.chapter-number {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(8rem,25vw,22rem);
+  color:rgba(200,16,46,0.08);
+  position:absolute;
+  user-select:none;
+  letter-spacing:-8px;
+  z-index:0;
+}
+.chapter-label-big {
+  position:relative;z-index:2;text-align:center;
+  transform:translateY(40px);opacity:0;
+  transition:transform 0.8s ease, opacity 0.8s ease;
+}
+.chapter-break.in-view .chapter-label-big{transform:translateY(0);opacity:1;}
+.chapter-label-big .ch-num{
+  font-family:'Bebas Neue',sans-serif;letter-spacing:6px;
+  font-size:0.9rem;color:var(--red);display:block;margin-bottom:16px;
+}
+.chapter-label-big .ch-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.5rem,5vw,5rem);
+  font-weight:900;color:var(--text);
+  line-height:1;
+}
+.chapter-label-big .ch-title em{color:var(--red);font-style:italic;}
+.chapter-label-big .ch-sub{
+  font-size:0.95rem;font-style:italic;
+  color:var(--text-muted);margin-top:16px;
+  letter-spacing:1px;
+}
+
+/* ── SECTIONS ── */
+.section{padding:100px 60px;position:relative;background:var(--bg);transition:background var(--transition);}
+.section-inner{max-width:1100px;margin:0 auto;}
+.section-label{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:0.75rem;letter-spacing:5px;
+  color:var(--red);margin-bottom:12px;
+  display:flex;align-items:center;gap:12px;
+}
+.section-label::after{content:'';flex:1;max-width:60px;height:1px;background:var(--red);opacity:0.5;}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,3.5rem);
+  font-weight:700;line-height:1.1;
+  color:var(--text);margin-bottom:32px;
+  transition:color var(--transition);
+}
+.section-title em{color:var(--red);font-style:italic;}
+.section-body{
+  font-size:1.05rem;line-height:1.9;font-weight:300;
+  color:var(--text-body);max-width:720px;
+  transition:color var(--transition);
+}
+.section-body p+p{margin-top:20px;}
+
+.pull-quote {
+  border-left:4px solid var(--red);
+  padding:20px 28px;margin:40px 0;
+  background:var(--pull-bg);
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;font-style:italic;line-height:1.6;
+  color:var(--text);max-width:600px;
+  transition:background var(--transition),color var(--transition);
+}
+.pull-quote cite{
+  display:block;margin-top:12px;
+  font-family:'Source Serif 4',serif;font-size:0.8rem;
+  font-style:normal;letter-spacing:2px;text-transform:uppercase;
+  color:var(--red);
+}
+
+/* ── CHAPTER WITH IMAGE (Ch2-Ch4) ── */
+.chapter-image-layout {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:64px;
+  align-items:center;
+  margin-top:48px;
+}
+.chapter-image-layout.reverse {grid-template-columns:1fr 1fr;}
+.chapter-image-wrap {
+  position:relative;
+}
+.chapter-img {
+  width:100%;
+  aspect-ratio:4/5;
+  object-fit:cover;
+  object-position:top center;
+  display:block;
+  filter:sepia(15%) contrast(1.05);
+  transition:filter var(--transition);
+}
+[data-theme="light"] .chapter-img{filter:sepia(8%) contrast(1.02);}
+
+/* Propaganda poster frame effect */
+.chapter-img-frame {
+  position:relative;
+  overflow:hidden;
+}
+.chapter-img-frame::before {
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 60%,rgba(10,10,10,0.7) 100%);
+  z-index:1;
+  pointer-events:none;
+  transition:background var(--transition);
+}
+[data-theme="light"] .chapter-img-frame::before{
+  background:linear-gradient(to bottom,transparent 60%,rgba(240,234,214,0.7) 100%);
+}
+.chapter-img-frame::after {
+  content:'';
+  position:absolute;inset:0;
+  border:3px solid rgba(200,16,46,0.4);
+  z-index:2;pointer-events:none;
+}
+.chapter-img-caption {
+  position:absolute;bottom:0;left:0;right:0;
+  z-index:3;padding:16px 20px;
+  font-size:0.78rem;font-style:italic;
+  color:rgba(245,240,232,0.8);
+  font-family:'Source Serif 4',serif;
+}
+[data-theme="light"] .chapter-img-caption{color:rgba(26,10,10,0.75);}
+.img-citation {
+  font-size:0.68rem;
+  color:rgba(245,240,232,0.5);
+  display:block;margin-top:4px;
+  font-style:normal;letter-spacing:0.5px;
+}
+[data-theme="light"] .img-citation{color:rgba(26,10,10,0.45);}
+
+/* Propaganda badge on images */
+.propaganda-badge {
+  position:absolute;top:16px;right:16px;z-index:4;
+  background:var(--red);
+  color:white;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:0.65rem;letter-spacing:2px;
+  padding:5px 10px;
+  border-radius:1px;
+}
+
+/* ── TWO COL ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:48px;}
+
+/* ── INTERACTIVE MAP ── */
+#map-section{padding:100px 60px;background:var(--bg);transition:background var(--transition);}
+.map-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;transition:color var(--transition);}
+.map-subtitle{font-size:0.85rem;color:var(--lightgrey);margin-bottom:40px;letter-spacing:1px;}
+.map-container{display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start;}
+.map-svg-wrap{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;position:relative;overflow:hidden;min-height:420px;transition:background var(--transition),border-color var(--transition);}
+.map-svg-wrap svg{width:100%;height:auto;display:block;}
+.island-dot{cursor:pointer;transition:all 0.3s;}
+.island-dot circle{fill:var(--red);opacity:0.7;transition:all 0.3s;stroke:var(--red);stroke-width:1;}
+.island-dot:hover circle,.island-dot.active circle{opacity:1;r:10;fill:var(--red);filter:drop-shadow(0 0 8px rgba(200,16,46,0.8));}
+.island-dot text{fill:var(--cream);font-size:11px;font-family:'Bebas Neue',sans-serif;letter-spacing:1px;pointer-events:none;transition:opacity 0.3s;}
+.island-dot.active text{fill:var(--gold);}
+.map-pulse{animation:pulse-ring 2s infinite;}
+@keyframes pulse-ring{0%{stroke-opacity:0.6;r:8}100%{stroke-opacity:0;r:22}}
+.map-info-panel{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:32px;min-height:300px;transition:background var(--transition),border-color var(--transition);}
+.map-info-panel h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--text);margin-bottom:6px;transition:color var(--transition);}
+.map-info-panel .country-flag{font-size:2rem;margin-bottom:12px;display:block;}
+.map-info-panel .movement-tag{display:inline-block;background:var(--red);color:var(--white);font-family:'Bebas Neue';letter-spacing:2px;font-size:0.7rem;padding:4px 10px;margin-bottom:16px;border-radius:2px;}
+.map-info-panel p{font-size:0.95rem;line-height:1.8;color:var(--text-muted);transition:color var(--transition);}
+.map-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;text-align:center;}
+.map-placeholder .icon{font-size:3rem;margin-bottom:16px;opacity:0.3;}
+.map-placeholder p{color:var(--lightgrey);font-size:0.9rem;font-style:italic;}
+
+/* ── TIMELINE ── */
+#timeline-section{padding:100px 60px;background:var(--bg);transition:background var(--transition);}
+.timeline-tabs{display:flex;gap:4px;margin-bottom:48px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:4px;padding:4px;width:fit-content;transition:background var(--transition);}
+.tab-btn{background:transparent;border:none;cursor:pointer;padding:10px 28px;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:3px;color:var(--lightgrey);border-radius:2px;transition:all 0.3s;}
+.tab-btn.active{background:var(--red);color:white;}
+.timeline-track{position:relative;padding-left:40px;}
+.timeline-track::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:1px;background:rgba(200,16,46,0.3);}
+.t-event{position:relative;margin-bottom:36px;opacity:0;transform:translateX(-15px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.t-event.visible{opacity:1;transform:translateX(0);}
+.t-event::before{content:attr(data-year);position:absolute;left:-56px;top:2px;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:var(--red);letter-spacing:1px;width:44px;text-align:right;}
+.t-dot{position:absolute;left:-47px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--red);border:2px solid var(--bg);box-shadow:0 0 0 2px var(--red);transition:border-color var(--transition);}
+.t-event h4{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--text);margin-bottom:6px;transition:color var(--transition);}
+.t-event p{font-size:0.9rem;line-height:1.7;color:var(--text-muted);transition:color var(--transition);}
+.t-event .t-tag{display:inline-block;font-family:'Bebas Neue';letter-spacing:2px;font-size:0.65rem;padding:2px 8px;border-radius:2px;margin-bottom:8px;}
+.t-tag.cuba{background:rgba(200,16,46,0.2);color:var(--red);border:1px solid rgba(200,16,46,0.3);}
+.t-tag.caribbean{background:rgba(212,160,23,0.15);color:var(--gold);border:1px solid rgba(212,160,23,0.3);}
+
+/* ── PROFILES ── */
+#profiles-section{padding:100px 60px;background:var(--bg);transition:background var(--transition);}
+.profiles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;margin-top:40px;}
+.profile-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:4px;overflow:hidden;cursor:pointer;transition:all 0.3s;position:relative;}
+.profile-card:hover{border-color:rgba(200,16,46,0.5);background:rgba(200,16,46,0.04);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.25);}
+.profile-avatar{width:100%;aspect-ratio:3/2;object-fit:cover;object-position:top center;display:block;filter:sepia(10%) contrast(1.05);}
+[data-theme="light"] .profile-avatar{filter:sepia(5%) contrast(1.02);}
+.profile-avatar-placeholder{width:100%;aspect-ratio:3/2;background:linear-gradient(135deg,rgba(200,16,46,0.15),rgba(10,10,10,0.8));display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
+.profile-body{padding:20px;}
+.profile-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:4px;transition:color var(--transition);}
+.profile-dates{font-family:'Bebas Neue';letter-spacing:2px;font-size:0.7rem;color:var(--red);margin-bottom:10px;}
+.profile-teaser{font-size:0.82rem;line-height:1.6;color:var(--text-muted);transition:color var(--transition);}
+.profile-expand-btn{margin-top:14px;background:none;border:1px solid rgba(200,16,46,0.3);color:var(--red);padding:6px 14px;font-family:'Bebas Neue';letter-spacing:2px;font-size:0.65rem;cursor:pointer;border-radius:2px;transition:all 0.2s;}
+.profile-expand-btn:hover{background:var(--red);color:white;}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:48px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;position:relative;transform:translateY(20px);transition:transform 0.3s,background var(--transition);}
+.modal-overlay.open .modal-box{transform:translateY(0);}
+.modal-close{position:absolute;top:20px;right:20px;background:none;border:none;color:var(--text-muted);font-size:1.2rem;cursor:pointer;transition:color 0.2s;}
+.modal-close:hover{color:var(--red);}
+.modal-photo{width:100%;max-height:240px;object-fit:cover;object-position:top;margin-bottom:20px;border-radius:2px;filter:sepia(10%);display:block;}
+.modal-emoji{font-size:3rem;margin-bottom:16px;display:block;}
+.modal-name{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--text);transition:color var(--transition);}
+.modal-dates{font-family:'Bebas Neue';letter-spacing:3px;font-size:0.8rem;color:var(--red);margin:8px 0 20px;}
+.modal-text{font-size:0.95rem;line-height:1.85;color:var(--text-muted);transition:color var(--transition);}
+.modal-quote{border-left:3px solid var(--red);padding:12px 20px;margin:24px 0;font-style:italic;font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--text);background:var(--pull-bg);transition:color var(--transition),background var(--transition);}
+
+/* ── PHOTO SLIDER ── */
+#slider-section{padding:100px 60px;background:var(--bg);transition:background var(--transition);}
+.slider-wrap{position:relative;max-width:800px;border:1px solid var(--border);overflow:hidden;border-radius:4px;user-select:none;margin-top:40px;}
+.slider-before,.slider-after{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:8rem;}
+.slider-before{background:linear-gradient(135deg,#1a0a0a,#2d1a1a);clip-path:inset(0 50% 0 0);}
+.slider-after{background:linear-gradient(135deg,#0a1a0a,#1a2d1a);}
+.slider-before-label,.slider-after-label{position:absolute;bottom:16px;font-family:'Bebas Neue';letter-spacing:3px;font-size:0.8rem;padding:6px 14px;background:rgba(0,0,0,0.7);border-radius:2px;}
+.slider-before-label{left:16px;color:var(--red);border:1px solid rgba(200,16,46,0.4);}
+.slider-after-label{right:16px;color:#4CAF50;border:1px solid rgba(76,175,80,0.4);}
+.slider-handle{position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);width:3px;background:white;cursor:ew-resize;z-index:10;}
+.slider-handle::before{content:'◀ ▶';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:white;color:black;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:0.55rem;letter-spacing:1px;box-shadow:0 2px 12px rgba(0,0,0,0.5);}
+.slider-img-wrap{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;}
+
+/* ── QUIZ ── */
+#quiz-section{padding:100px 60px;background:var(--bg);transition:background var(--transition);}
+.quiz-box{max-width:680px;background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:48px;transition:background var(--transition),border-color var(--transition);}
+.quiz-progress-bar{height:3px;background:var(--card-border);border-radius:2px;margin-bottom:36px;overflow:hidden;}
+.quiz-progress-fill{height:100%;background:var(--red);transition:width 0.4s ease;border-radius:2px;}
+.quiz-q-num{font-family:'Bebas Neue';letter-spacing:3px;font-size:0.75rem;color:var(--red);margin-bottom:12px;}
+.quiz-question{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--text);line-height:1.5;margin-bottom:28px;transition:color var(--transition);}
+.quiz-options{display:flex;flex-direction:column;gap:10px;}
+.quiz-opt{background:var(--input-bg);border:1px solid var(--input-border);border-radius:3px;padding:14px 20px;cursor:pointer;font-size:0.95rem;color:var(--text-muted);transition:all 0.2s;text-align:left;font-family:'Source Serif 4',serif;}
+.quiz-opt:hover:not(:disabled){border-color:rgba(200,16,46,0.5);background:rgba(200,16,46,0.06);color:var(--text);}
+.quiz-opt.correct{border-color:#4CAF50;background:rgba(76,175,80,0.1);color:#81C784;}
+.quiz-opt.wrong{border-color:var(--red);background:rgba(200,16,46,0.1);color:#EF9A9A;}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{margin-top:20px;padding:14px 18px;border-radius:3px;font-size:0.9rem;line-height:1.6;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.correct-fb{background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.3);color:#A5D6A7;}
+.quiz-feedback.wrong-fb{background:rgba(200,16,46,0.1);border:1px solid rgba(200,16,46,0.3);color:#EF9A9A;}
+.quiz-next{margin-top:24px;background:var(--red);border:none;color:white;padding:12px 32px;font-family:'Bebas Neue';letter-spacing:3px;font-size:0.85rem;cursor:pointer;border-radius:2px;transition:background 0.2s;display:none;}
+.quiz-next.show{display:inline-block;}
+.quiz-next:hover{background:var(--darkred);}
+.quiz-result{text-align:center;padding:20px 0;display:none;}
+.quiz-result.show{display:block;}
+.quiz-result .score-big{font-family:'Bebas Neue';font-size:5rem;color:var(--red);line-height:1;}
+.quiz-result p{color:var(--text-muted);margin-top:12px;font-size:1rem;}
+.quiz-restart{margin-top:24px;background:none;border:1px solid rgba(200,16,46,0.5);color:var(--red);padding:10px 28px;font-family:'Bebas Neue';letter-spacing:3px;font-size:0.8rem;cursor:pointer;border-radius:2px;transition:all 0.2s;}
+.quiz-restart:hover{background:var(--red);color:white;}
+
+/* ── DISCUSSION ── */
+#discussion-section{padding:80px 60px;background:var(--bg);transition:background var(--transition);}
+.discussion-prompt{background:var(--pull-bg);border:1px solid var(--border);border-radius:4px;padding:32px;font-family:'Playfair Display',serif;font-size:1.2rem;font-style:italic;color:var(--text);line-height:1.6;margin-bottom:24px;max-width:680px;position:relative;transition:background var(--transition),color var(--transition),border-color var(--transition);}
+.discussion-prompt::before{content:'"';position:absolute;top:-10px;left:20px;font-size:4rem;color:var(--red);opacity:0.3;font-family:'Playfair Display',serif;}
+.discussion-comments{max-width:680px;}
+.comment-input-wrap{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+.comment-input-wrap input,.comment-input-wrap textarea{background:var(--input-bg);border:1px solid var(--input-border);border-radius:3px;padding:12px 16px;color:var(--text);font-family:'Source Serif 4',serif;font-size:0.95rem;resize:vertical;transition:border-color 0.2s,background var(--transition),color var(--transition);}
+.comment-input-wrap input:focus,.comment-input-wrap textarea:focus{outline:none;border-color:rgba(200,16,46,0.5);}
+.comment-input-wrap input::placeholder,.comment-input-wrap textarea::placeholder{color:var(--lightgrey);}
+.comment-input-wrap textarea{min-height:100px;}
+.comment-submit{align-self:flex-start;background:var(--red);border:none;color:white;padding:10px 28px;font-family:'Bebas Neue';letter-spacing:3px;font-size:0.8rem;cursor:pointer;border-radius:2px;transition:background 0.2s;}
+.comment-submit:hover{background:var(--darkred);}
+.comments-list{display:flex;flex-direction:column;gap:16px;}
+.comment-item{background:var(--card-bg);border-left:3px solid rgba(200,16,46,0.4);padding:16px 20px;border-radius:0 3px 3px 0;animation:fadeUp 0.4s ease;transition:background var(--transition);}
+.comment-author{font-family:'Bebas Neue';letter-spacing:2px;font-size:0.75rem;color:var(--red);margin-bottom:6px;}
+.comment-text{font-size:0.9rem;line-height:1.7;color:var(--text-muted);transition:color var(--transition);}
+
+/* ── WORKS CITED ── */
+#works-section{padding:100px 60px;background:var(--bg);transition:background var(--transition);}
+.cite-list{max-width:720px;list-style:none;}
+.cite-list li{padding:16px 0;border-bottom:1px solid var(--card-border);font-size:0.9rem;line-height:1.8;color:var(--text-muted);transition:color var(--transition),border-color var(--transition);}
+.cite-list li::before{content:'—';color:var(--red);margin-right:10px;}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:40px 60px;display:flex;align-items:center;justify-content:space-between;background:var(--bg2);transition:background var(--transition),border-color var(--transition);}
+.footer-left{font-family:'Bebas Neue';letter-spacing:3px;font-size:0.75rem;color:var(--lightgrey);}
+.footer-right{font-size:0.8rem;color:var(--text-muted);font-style:italic;transition:color var(--transition);}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
+
+/* ── CINEMATIC SECTION DIVIDER ── */
+.cinematic-divider {
+  height:80px;
+  position:relative;
+  overflow:hidden;
+  background:var(--bg);
+}
+.cinematic-divider::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 28px,
+    rgba(200,16,46,0.06) 28px,
+    rgba(200,16,46,0.06) 29px
+  );
+}
+.divider{display:flex;align-items:center;gap:20px;padding:0 60px;margin:0;color:rgba(200,16,46,0.3);font-size:0.5rem;letter-spacing:8px;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(200,16,46,0.2),transparent);}
+
+/* ── CULTURE SECTION ── */
+#culture{background:var(--bg);transition:background var(--transition);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .chapter-image-layout{grid-template-columns:1fr;gap:32px;}
+  .chapter-image-layout.reverse .chapter-image-wrap{order:-1;}
+}
+@media(max-width:768px){
+  nav{padding:0 20px;}
+  .nav-links{display:none;position:fixed;top:64px;left:0;right:0;flex-direction:column;background:var(--nav-bg);border-bottom:1px solid var(--border);}
+  .nav-links.open{display:flex;}
+  .nav-links a{height:48px;padding:0 24px;border-left:none;border-top:1px solid var(--card-border);}
+  .hamburger{display:flex;}
+  .section,#map-section,#timeline-section,#profiles-section,#slider-section,#quiz-section,#discussion-section,#works-section{padding:60px 24px;}
+  #home{padding:0 24px 60px;}
+  .map-container{grid-template-columns:1fr;}
+  .two-col{grid-template-columns:1fr;gap:32px;}
+  .quiz-box{padding:28px;}
+  footer{flex-direction:column;gap:12px;padding:32px 24px;text-align:center;}
+  .divider{padding:0 24px;}
+  .chapter-break{height:60vh;}
+  .chapter-label-big .ch-title{font-size:clamp(2rem,8vw,4rem);}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particleCanvas"></canvas>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress-bar"><div class="scroll-progress-fill" id="scrollFill"></div></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">CUBAN REV.</a>
+  <div class="nav-links" id="navLinks">
+    <a href="#home">Home</a>
+    <a href="#ch1-break">Batista</a>
+    <a href="#ch2-break">Struggle</a>
+    <a href="#ch3-break">Triumph</a>
+    <a href="#map-section">Caribbean</a>
+    <a href="#culture">Culture</a>
+    <a href="#timeline-section">Timeline</a>
+    <a href="#profiles-section">Figures</a>
+    <a href="#quiz-section">Quiz</a>
+    <a href="#works-section">Sources</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">🌙</button>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-stars" id="heroStars"></div>
+  <div class="hero-halftone"></div>
+  <div class="hero-stripe"></div>
+  <div class="hero-year">1959</div>
+  <div class="hero-eyebrow">Digital History · Caribbean Studies</div>
+  <h1 class="hero-title">The <span class="accent">Cuban</span><br>Revolution<br>&amp; Its<br>Caribbean Impact</h1>
+  <div class="hero-period">1953 – 1983</div>
+  <p class="hero-subtitle">From the Sierra Maestra to Grenada and beyond — how one island's uprising reshaped an entire region.</p>
+  <div class="hero-scroll">
+    <span>Scroll to Explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── CHAPTER I BREAK ── -->
+<div class="chapter-break" id="ch1-break">
+  <div class="chapter-break-bg"></div>
+  <div class="chapter-number">I</div>
+  <div class="chapter-label-big">
+    <span class="ch-num">Chapter One</span>
+    <h2 class="ch-title">Cuba Under <em>Batista</em></h2>
+    <p class="ch-sub">1952 – 1958 · Inequality, Repression, Revolution's Eve</p>
+  </div>
+</div>
+
+<!-- BATISTA -->
+<section id="batista" class="section">
+  <div class="section-inner">
+    <div class="section-label">Chapter I</div>
+    <h2 class="section-title reveal">Cuba Under <em>Batista</em></h2>
+    <div class="chapter-image-layout">
+      <div class="section-body reveal reveal-delay-1">
+        <p>Cuba in the 1950s was marked by stark inequality, political repression, and a deep dependency on the United States. Fulgencio Batista, who seized power in a coup in March 1952, presided over a regime that served the interests of the Cuban elite and American business interests while the majority of Cubans — particularly rural workers and Afro-Cubans — lived in poverty.</p>
+        <p>Batista's government was notorious for its corruption and brutal suppression of dissent through the secret police. Land ownership was concentrated in the hands of a few, and American corporations dominated key industries such as sugar and mining. This context of inequality and foreign domination created the conditions for revolutionary sentiment to take root.</p>
+        <div class="pull-quote">
+          "Cuba was a country economically dependent, politically dominated, and socially stratified — the ideal ground for revolution."
+          <cite>— Hugh Thomas, <em>Cuba: A History</em> (2010)</cite>
+        </div>
+      </div>
+      <div class="chapter-image-wrap reveal reveal-delay-2">
+        <div class="chapter-img-frame">
+          <div class="propaganda-badge">1950s Cuba</div>
+          <img
+            src="images/Fulgencio_Batista.jpg"
+            alt="Fulgencio Batista, Cuban dictator"
+            class="chapter-img"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+          >
+          <div style="display:none;width:100%;aspect-ratio:4/5;background:linear-gradient(135deg,rgba(200,16,46,0.15),rgba(10,10,10,0.8));align-items:center;justify-content:center;font-size:4rem;">🔥</div>
+          <div class="chapter-img-caption">
+            Fulgencio Batista, Cuban dictator (1952–1958), whose authoritarian rule created the conditions for revolution.
+            <span class="img-citation">Wikimedia Commons · Public Domain</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">✦</div>
+
+<!-- ── CHAPTER II BREAK ── -->
+<div class="chapter-break" id="ch2-break">
+  <div class="chapter-break-bg"></div>
+  <div class="chapter-number">II</div>
+  <div class="chapter-label-big">
+    <span class="ch-num">Chapter Two</span>
+    <h2 class="ch-title">The Revolutionary <em>Struggle</em></h2>
+    <p class="ch-sub">1953 – 1958 · Moncada, Sierra Maestra, the Granma</p>
+  </div>
+</div>
+
+<!-- STRUGGLE -->
+<section id="struggle" class="section">
+  <div class="section-inner">
+    <div class="section-label">Chapter II</div>
+    <h2 class="section-title reveal">The Revolutionary <em>Struggle</em></h2>
+    <div class="chapter-image-layout reverse">
+      <div class="chapter-image-wrap reveal reveal-delay-1">
+        <div class="chapter-img-frame">
+          <div class="propaganda-badge">Sierra Maestra</div>
+          <img
+            src="images/Che_Guevara.jpg"
+            alt="Che Guevara, iconic photograph by Alberto Korda"
+            class="chapter-img"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+          >
+          <div style="display:none;width:100%;aspect-ratio:4/5;background:linear-gradient(135deg,rgba(200,16,46,0.15),rgba(10,10,10,0.8));align-items:center;justify-content:center;font-size:4rem;">⭐</div>
+          <div class="chapter-img-caption">
+            Che Guevara — <em>Guerrillero Heroico</em>, the most reproduced photograph in history. Taken by Alberto Korda in Havana, 1960.
+            <span class="img-citation">Alberto Korda / Wikimedia Commons · Public Domain in most jurisdictions</span>
+          </div>
+        </div>
+      </div>
+      <div class="section-body reveal reveal-delay-2">
+        <p>The revolutionary struggle began on 26 July 1953, when Fidel Castro led approximately 160 rebels in an assault on the Moncada Barracks in Santiago de Cuba. The attack failed militarily, and many rebels were killed or captured. Castro was tried and delivered his famous defence — <em>"History Will Absolve Me"</em> — before being sentenced to prison.</p>
+        <p>Released under amnesty in 1955, Castro regrouped in Mexico where he organised the 26th of July Movement and trained a guerrilla force. In December 1956, Castro and eighty-one rebels — including Argentine doctor Ernesto "Che" Guevara — landed in eastern Cuba aboard the yacht <em>Granma</em>. After a disastrous initial encounter, the survivors retreated to the Sierra Maestra mountains and launched a sustained guerrilla campaign that would last two years, gaining popular support and steadily expanding territory.</p>
+        <div class="pull-quote">
+          "History Will Absolve Me."
+          <cite>— Fidel Castro, Trial Defence Speech, Santiago de Cuba, 1953</cite>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">✦</div>
+
+<!-- ── CHAPTER III BREAK ── -->
+<div class="chapter-break" id="ch3-break">
+  <div class="chapter-break-bg"></div>
+  <div class="chapter-number">III</div>
+  <div class="chapter-label-big">
+    <span class="ch-num">Chapter Three</span>
+    <h2 class="ch-title">Triumph of the <em>Revolution</em></h2>
+    <p class="ch-sub">1 January 1959 · Batista Flees, Castro Enters Havana</p>
+  </div>
+</div>
+
+<!-- TRIUMPH -->
+<section id="triumph" class="section">
+  <div class="section-inner">
+    <div class="section-label">Chapter III</div>
+    <h2 class="section-title reveal">Triumph of the <em>Revolution</em></h2>
+    <div class="chapter-image-layout">
+      <div class="section-body reveal reveal-delay-1">
+        <p>By late 1958, momentum had decisively shifted. Batista's army was demoralised, and in a series of decisive victories, Castro's forces captured key towns across Cuba. On 31 December 1958, Batista fled the country. On 1 January 1959, Fidel Castro entered Havana triumphant.</p>
+        <p>The new government moved swiftly — land reform programmes redistributed large estates, literacy campaigns dramatically reduced illiteracy, and healthcare was extended to rural areas. Cuba's alignment with the Soviet Union set the stage for the Bay of Pigs invasion (1961) and the Cuban Missile Crisis (1962), cementing the revolution's global significance and deepening the Cold War's grip on the Caribbean.</p>
+        <div class="pull-quote">
+          "The revolution is not just Cuba's — it belongs to the oppressed peoples of the world."
+          <cite>— Fidel Castro, Havana, 1960</cite>
+        </div>
+      </div>
+      <div class="chapter-image-wrap reveal reveal-delay-2">
+        <div class="chapter-img-frame">
+          <div class="propaganda-badge">1 Jan 1959</div>
+          <img
+            src="/images/Fidel.jpg"
+            alt="Fidel Castro, 1959"
+            class="chapter-img"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+          >
+          <div style="display:none;width:100%;aspect-ratio:4/5;background:linear-gradient(135deg,rgba(200,16,46,0.15),rgba(10,10,10,0.8));align-items:center;justify-content:center;font-size:4rem;">✊</div>
+          <div class="chapter-img-caption">
+            Fidel Castro in Washington D.C., April 1959, months after the revolutionary triumph. Castro visited the United States shortly after taking power.
+            <span class="img-citation">U.S. Department of Defense / Wikimedia Commons · Public Domain</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">✦</div>
+
+<!-- INTERACTIVE MAP -->
+<section id="map-section">
+  <div class="section-label">Interactive</div>
+  <h2 class="map-title reveal">The Revolution's Caribbean Reach</h2>
+  <p class="map-subtitle reveal">Click each island to explore how the Cuban Revolution shaped its political history</p>
+  <div class="map-container reveal">
+    <div class="map-svg-wrap">
+      <svg viewBox="0 0 700 420" xmlns="http://www.w3.org/2000/svg" id="caribMap">
+        <rect width="700" height="420" fill="var(--map-ocean)"/>
+        <g stroke="rgba(255,255,255,0.03)" stroke-width="0.5">
+          <line x1="0" y1="84" x2="700" y2="84"/><line x1="0" y1="168" x2="700" y2="168"/>
+          <line x1="0" y1="252" x2="700" y2="252"/><line x1="0" y1="336" x2="700" y2="336"/>
+          <line x1="140" y1="0" x2="140" y2="420"/><line x1="280" y1="0" x2="280" y2="420"/>
+          <line x1="420" y1="0" x2="420" y2="420"/><line x1="560" y1="0" x2="560" y2="420"/>
+        </g>
+        <ellipse cx="120" cy="60" rx="55" ry="15" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+        <text x="120" y="58" fill="rgba(255,255,255,0.2)" font-size="7" text-anchor="middle" font-family="sans-serif">FLORIDA</text>
+        <ellipse cx="270" cy="110" rx="85" ry="22" fill="rgba(200,16,46,0.15)" stroke="rgba(200,16,46,0.5)" stroke-width="1.5"/>
+        <text x="270" y="108" fill="rgba(200,16,46,0.7)" font-size="8" text-anchor="middle" font-family="sans-serif">CUBA</text>
+        <g class="island-dot active" onclick="showInfo('cuba')" id="dot-cuba">
+          <circle cx="270" cy="110" r="7" fill="#C8102E" opacity="0.9"/>
+          <circle class="map-pulse" cx="270" cy="110" r="7" fill="none" stroke="#C8102E" stroke-width="1.5"/>
+        </g>
+        <ellipse cx="380" cy="125" rx="48" ry="18" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <text x="380" y="123" fill="rgba(255,255,255,0.3)" font-size="7" text-anchor="middle" font-family="sans-serif">HISPANIOLA</text>
+        <ellipse cx="300" cy="160" rx="30" ry="12" fill="rgba(212,160,23,0.12)" stroke="rgba(212,160,23,0.35)" stroke-width="1"/>
+        <g class="island-dot" onclick="showInfo('jamaica')" id="dot-jamaica">
+          <circle cx="300" cy="160" r="7"/>
+          <text x="300" y="185" text-anchor="middle">JAMAICA</text>
+        </g>
+        <ellipse cx="490" cy="255" rx="22" ry="14" fill="rgba(212,160,23,0.08)" stroke="rgba(212,160,23,0.25)" stroke-width="1"/>
+        <g class="island-dot" onclick="showInfo('trinidad')" id="dot-trinidad">
+          <circle cx="490" cy="255" r="7"/>
+          <text x="490" y="280" text-anchor="middle">TRINIDAD</text>
+        </g>
+        <ellipse cx="510" cy="290" rx="10" ry="8" fill="rgba(212,160,23,0.08)" stroke="rgba(212,160,23,0.2)" stroke-width="1"/>
+        <g class="island-dot" onclick="showInfo('grenada')" id="dot-grenada">
+          <circle cx="510" cy="290" r="7"/>
+          <text x="510" y="315" text-anchor="middle">GRENADA</text>
+        </g>
+        <ellipse cx="540" cy="265" rx="8" ry="7" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+        <g class="island-dot" onclick="showInfo('barbados')" id="dot-barbados">
+          <circle cx="540" cy="265" r="6"/>
+          <text x="540" y="288" text-anchor="middle">BARBADOS</text>
+        </g>
+        <ellipse cx="430" cy="130" rx="22" ry="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+        <text x="430" y="129" fill="rgba(255,255,255,0.25)" font-size="7" text-anchor="middle" font-family="sans-serif">PUERTO RICO</text>
+        <rect x="320" y="385" width="260" height="35" rx="4" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <text x="450" y="407" fill="rgba(255,255,255,0.15)" font-size="9" text-anchor="middle" font-family="sans-serif">SOUTH AMERICA</text>
+        <line x1="270" y1="117" x2="300" y2="153" stroke="rgba(200,16,46,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="270" y1="117" x2="488" y2="248" stroke="rgba(200,16,46,0.15)" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="270" y1="117" x2="508" y2="283" stroke="rgba(200,16,46,0.15)" stroke-width="1" stroke-dasharray="4,3"/>
+        <g transform="translate(20,360)">
+          <circle cx="8" cy="8" r="6" fill="#C8102E" opacity="0.8"/>
+          <text x="20" y="12" fill="rgba(245,240,232,0.5)" font-size="9" font-family="sans-serif">Cuba (epicentre)</text>
+          <circle cx="8" cy="26" r="6" fill="rgba(212,160,23,0.5)"/>
+          <text x="20" y="30" fill="rgba(245,240,232,0.5)" font-size="9" font-family="sans-serif">Influenced territories</text>
+        </g>
+      </svg>
+    </div>
+    <div class="map-info-panel" id="mapInfoPanel">
+      <div class="map-placeholder">
+        <div class="icon">🗺️</div>
+        <p>Select an island on the map to explore the Cuban Revolution's specific influence on that territory.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">✦</div>
+
+<!-- CULTURE -->
+<section id="culture" class="section">
+  <div class="section-label">Chapter V</div>
+  <h2 class="section-title reveal">Cuban Cultural <em>Diplomacy</em></h2>
+  <div class="two-col">
+    <div class="section-body reveal reveal-delay-1">
+      <p>Beyond direct political influence, Cuba projected its revolutionary ideals across the Caribbean through cultural diplomacy. Cuban music — particularly son, salsa, and nueva trova — carried themes of social justice and anti-imperialism that resonated deeply with Caribbean audiences. The state-run ICAIC produced politically engaged films screened across the region.</p>
+      <p>Perhaps most significantly, Cuba's medical internationalism — dispatching doctors and healthcare workers to other nations — built considerable goodwill. Scholarships for Caribbean students to study in Cuban universities deepened ties and spread revolutionary ideas, presenting an alternative model of international relations based on solidarity rather than commercial interest.</p>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="pull-quote">
+        "Cuba's internationalism was never merely political — it was a model of human solidarity that contrasted sharply with the perceived self-interest of larger powers."
+        <cite>— Brian Meeks, <em>Caribbean Revolutions and Revolutionary Theory</em> (1993)</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">✦</div>
+
+<!-- TIMELINE -->
+<section id="timeline-section">
+  <div class="section-label">Interactive Timeline</div>
+  <h2 class="section-title reveal">Parallel <em>Histories</em></h2>
+  <p class="section-body reveal" style="margin-bottom:0">Toggle between events in Cuba and the revolution's ripple effects across the Caribbean.</p>
+  <div class="timeline-tabs reveal" style="margin-top:28px">
+    <button class="tab-btn active" onclick="switchTimeline('cuba')">Cuba</button>
+    <button class="tab-btn" onclick="switchTimeline('caribbean')">Caribbean</button>
+    <button class="tab-btn" onclick="switchTimeline('both')">Both</button>
+  </div>
+  <div class="timeline-track" id="timelineTrack"></div>
+</section>
+
+<div class="divider">✦</div>
+
+<!-- PROFILES -->
+<section id="profiles-section">
+  <div class="section-label">Key Figures</div>
+  <h2 class="section-title reveal">Who Was <em>Who?</em></h2>
+  <p class="section-body reveal">Click any figure for a full profile, dates, and their pivotal role in the revolution and its Caribbean impact.</p>
+  <div class="profiles-grid" id="profilesGrid"></div>
+</section>
+
+<div class="divider">✦</div>
+
+<!-- PHOTO SLIDER -->
+<section id="slider-section">
+  <div class="section-label">Then &amp; Now</div>
+  <h2 class="section-title reveal">Cuba: <em>Before &amp; After</em></h2>
+  <p class="section-body reveal">Drag the divider to compare Batista-era Cuba with the revolutionary period.</p>
+  <div class="slider-wrap" id="sliderWrap">
+    <div class="slider-img-wrap">
+      <div class="slider-before">
+        🏚️
+        <div class="slider-before-label">Pre-1959 Batista Era</div>
+      </div>
+      <div class="slider-after" id="sliderAfter">
+        🏥
+        <div class="slider-after-label">Post-Revolution 1960s</div>
+      </div>
+      <div class="slider-handle" id="sliderHandle"></div>
+    </div>
+    <div style="padding:20px 24px;background:rgba(0,0,0,0.4);display:flex;gap:40px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,0.05);">
+      <div style="flex:1;min-width:200px;">
+        <div style="font-family:'Bebas Neue';letter-spacing:2px;font-size:0.7rem;color:var(--red);margin-bottom:6px;">BATISTA ERA</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.6;">Rural poverty widespread. US corporations dominated. 37% illiteracy rate. Healthcare inaccessible to most Cubans.</div>
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <div style="font-family:'Bebas Neue';letter-spacing:2px;font-size:0.7rem;color:#4CAF50;margin-bottom:6px;">POST-REVOLUTION</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.6;">Land reform redistributed estates. Literacy rate raised to 96%. Universal healthcare established. Foreign companies nationalised.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">✦</div>
+
+<!-- QUIZ -->
+<section id="quiz-section">
+  <div class="section-label">Test Your Knowledge</div>
+  <h2 class="section-title reveal">How Much Do You <em>Know?</em></h2>
+  <div class="quiz-box reveal" id="quizBox">
+    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgress" style="width:0%"></div></div>
+    <div id="quizContent"></div>
+  </div>
+</section>
+
+<div class="divider">✦</div>
+
+<!-- DISCUSSION -->
+<section id="discussion-section">
+  <div class="section-label">Discussion Forum</div>
+  <h2 class="section-title reveal">Join the <em>Conversation</em></h2>
+  <div class="discussion-prompt reveal">
+    Is the Cuban Revolution still relevant to the Caribbean today? How does its legacy shape contemporary debates about sovereignty and social justice?
+  </div>
+  <div class="discussion-comments reveal">
+    <div class="comment-input-wrap">
+      <input type="text" id="commentName" placeholder="Your name" maxlength="50"/>
+      <textarea id="commentText" placeholder="Share your thoughts..." maxlength="500"></textarea>
+      <button class="comment-submit" onclick="postComment()">Post Comment</button>
+    </div>
+    <div class="comments-list" id="commentsList"></div>
+  </div>
+</section>
+
+<div class="divider">✦</div>
+
+<!-- WORKS CITED -->
+<section id="works-section">
+  <div class="section-label">Bibliography</div>
+  <h2 class="section-title reveal">Works <em>Cited</em></h2>
+  <ul class="cite-list reveal">
+    <li>Thomas, Hugh. <em>Cuba: A History.</em> London: Penguin, 2010.</li>
+    <li>Castro, Fidel. <em>History Will Absolve Me.</em> Havana: Editorial de Ciencias Sociales, 1953.</li>
+    <li>Anderson, Jon Lee. <em>Che Guevara: A Revolutionary Life.</em> New York: Grove Press, 1997.</li>
+    <li>Palmer, Colin. <em>Cheddi Jagan and the Politics of Power.</em> Chapel Hill: UNC Press, 2010.</li>
+    <li>Meeks, Brian. <em>Caribbean Revolutions and Revolutionary Theory.</em> London: Macmillan, 1993.</li>
+    <li>Rabe, Stephen G. <em>The Killing Zone: The United States Wages Cold War in Latin America.</em> Oxford: OUP, 2011.</li>
+    <li>Rodney, Walter. <em>How Europe Underdeveloped Africa.</em> London: Bogle-L'Ouverture, 1972.</li>
+    <li>Bishop, Maurice. <em>Selected Speeches 1979–1981.</em> Havana: Casa de las Américas, 1982.</li>
+    <li>Korda, Alberto. <em>Guerrillero Heroico</em> [photograph]. Havana, 1960. Wikimedia Commons. Public Domain.</li>
+    <li>U.S. Department of Defense. <em>Fidel Castro at MATS Terminal, Washington</em> [photograph]. 1959. Wikimedia Commons. Public Domain.</li>
+  </ul>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">Navauldo Sharpe · 620162447 · Digital History · 2026</div>
+  <div class="footer-right">The Cuban Revolution &amp; Its Caribbean Impact · 1953–1983</div>
+</footer>
+
+<!-- PROFILE MODAL -->
+<div class="modal-overlay" id="profileModal" onclick="closeModal(event)">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <img id="modalPhoto" class="modal-photo" src="" alt="" style="display:none">
+    <span class="modal-emoji" id="modalEmoji"></span>
+    <h2 class="modal-name" id="modalName"></h2>
+    <div class="modal-dates" id="modalDates"></div>
+    <div class="modal-text" id="modalText"></div>
+    <div class="modal-quote" id="modalQuote"></div>
+  </div>
+</div>
+
+<script>
+// ── PARTICLE CANVAS ──────────────────────────────────────────
+(function(){
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [], W, H;
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  class Particle {
+    constructor(){this.reset();}
+    reset(){
+      this.x = Math.random()*W;
+      this.y = Math.random()*H;
+      this.r = Math.random()*1.5+0.3;
+      this.vx = (Math.random()-0.5)*0.3;
+      this.vy = (Math.random()-0.5)*0.3;
+      this.life = Math.random();
+      this.maxLife = 0.4+Math.random()*0.4;
+      this.color = Math.random()<0.7 ? '#C8102E' : '#D4A017';
+      this.alpha = 0;
+    }
+    update(){
+      this.x+=this.vx; this.y+=this.vy;
+      this.life+=0.003;
+      if(this.life<this.maxLife/2) this.alpha = this.life/(this.maxLife/2)*0.4;
+      else this.alpha = (1-(this.life-this.maxLife/2)/(this.maxLife/2))*0.4;
+      if(this.life>this.maxLife||this.x<0||this.x>W||this.y<0||this.y>H) this.reset();
+    }
+    draw(){
+      ctx.save();
+      ctx.globalAlpha=this.alpha;
+      ctx.fillStyle=this.color;
+      ctx.beginPath();
+      ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+  for(let i=0;i<120;i++) particles.push(new Particle());
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{p.update();p.draw();});
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ── STARS ────────────────────────────────────────────────────
+(function(){
+  const c = document.getElementById('heroStars');
+  for(let i=0;i<80;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s;opacity:${Math.random()*0.5+0.1}`;
+    c.appendChild(s);
+  }
+})();
+
+// ── THEME TOGGLE ─────────────────────────────────────────────
+const html = document.documentElement;
+const themeBtn = document.getElementById('themeToggle');
+function setTheme(t){
+  html.setAttribute('data-theme',t);
+  themeBtn.textContent = t==='dark' ? '🌙' : '☀️';
+  localStorage.setItem('cubanrev-theme',t);
+}
+themeBtn.addEventListener('click',()=>{
+  setTheme(html.getAttribute('data-theme')==='dark'?'light':'dark');
+});
+// Load saved preference
+const saved = localStorage.getItem('cubanrev-theme');
+if(saved) setTheme(saved);
+
+// ── SCROLL PROGRESS ──────────────────────────────────────────
+window.addEventListener('scroll',()=>{
+  const total=document.body.scrollHeight-window.innerHeight;
+  const pct = (window.scrollY/total*100).toFixed(2);
+  document.getElementById('scrollFill').style.width=pct+'%';
+});
+
+// ── NAV ──────────────────────────────────────────────────────
+function toggleNav(){document.getElementById('navLinks').classList.toggle('open');}
+window.addEventListener('scroll',()=>{
+  const sections=document.querySelectorAll('section[id]');
+  const links=document.querySelectorAll('.nav-links a');
+  let current='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-90)current=s.id;});
+  links.forEach(l=>{l.classList.toggle('active',l.getAttribute('href')==='#'+current);});
+});
+
+// ── SCROLL REVEAL ─────────────────────────────────────────────
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:0.13});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ── CHAPTER BREAK CINEMATIC ───────────────────────────────────
+const chapterIO = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{e.target.classList.toggle('in-view',e.isIntersecting);});
+},{threshold:0.4});
+document.querySelectorAll('.chapter-break').forEach(el=>chapterIO.observe(el));
+
+// ── MAP ───────────────────────────────────────────────────────
+const mapData={
+  cuba:{flag:'🇨🇺',name:'Cuba',tag:'Epicentre 1959',text:'The Cuban Revolution (1959) was the origin point from which revolutionary ideas radiated across the Caribbean. Under Fidel Castro, Cuba implemented land reform, universal healthcare, and mass literacy campaigns. Cuba\'s alignment with the Soviet Union during the Cold War made it the most politically charged island in the hemisphere, simultaneously inspiring Caribbean leftists and alarming regional governments aligned with the United States.'},
+  jamaica:{flag:'🇯🇲',name:'Jamaica',tag:'Black Power Movement',text:'Cuba\'s revolution resonated strongly in Jamaica, particularly through the Black Power movement of the late 1960s. Walter Rodney\'s expulsion in 1968 and the resulting Rodney Riots showed the potency of radical politics inspired in part by the Cuban example. Michael Manley\'s PNP government (1972–1980) built close ties with Cuba, with Manley and Castro developing a personal friendship that influenced Jamaica\'s democratic socialist policies.'},
+  trinidad:{flag:'🇹🇹',name:'Trinidad & Tobago',tag:'February Revolution 1970',text:'The 1970 February Revolution in Trinidad and Tobago was directly influenced by Cuban revolutionary rhetoric and global Black Power movements. Protesters led by the National Joint Action Committee (NJAC) demanded Black Power and economic justice, challenging the post-independence government of Eric Williams. Though the uprising was suppressed, it revealed deep discontent with neo-colonial economic structures — the same critique that had animated the Cuban Revolution.'},
+  grenada:{flag:'🇬🇩',name:'Grenada',tag:'New Jewel Movement 1979',text:'Grenada experienced the most direct Cuban revolutionary influence in the English-speaking Caribbean. Maurice Bishop\'s New Jewel Movement, which came to power in 1979, openly admired the Cuban model and received Cuban assistance including doctors, teachers, and construction workers. Cuba helped build an international airport at Point Salines. The revolution ended in 1983 when Bishop was killed in an internal coup, followed by a US invasion.'},
+  barbados:{flag:'🇧🇧',name:'Barbados',tag:'Regional Influence',text:'While Barbados maintained a more conservative political path, the Cuban Revolution influenced Caribbean intellectual circles and left-leaning thinkers on the island. Barbados later joined other CARICOM nations in establishing diplomatic relations with Cuba in 1972, defying US pressure — a significant act of regional solidarity with the revolutionary government.'},
+};
+function showInfo(island){
+  document.querySelectorAll('.island-dot').forEach(d=>d.classList.remove('active'));
+  document.getElementById('dot-'+island).classList.add('active');
+  const d=mapData[island];
+  document.getElementById('mapInfoPanel').innerHTML=`
+    <span class="country-flag">${d.flag}</span>
+    <h3>${d.name}</h3>
+    <span class="movement-tag">${d.tag}</span>
+    <p>${d.text}</p>
+  `;
+}
+showInfo('cuba');
+
+// ── SLIDER ────────────────────────────────────────────────────
+(function(){
+  const wrap=document.getElementById('sliderWrap');
+  const handle=document.getElementById('sliderHandle');
+  const after=document.getElementById('sliderAfter');
+  let dragging=false;
+  function setPos(x){
+    const rect=wrap.getBoundingClientRect();
+    let pct=Math.min(Math.max((x-rect.left)/rect.width*100,5),95);
+    handle.style.left=pct+'%';
+    after.style.clipPath=`inset(0 0 0 ${pct}%)`;
+    wrap.querySelector('.slider-before').style.clipPath=`inset(0 ${100-pct}% 0 0)`;
+  }
+  handle.addEventListener('mousedown',()=>dragging=true);
+  handle.addEventListener('touchstart',()=>dragging=true);
+  window.addEventListener('mouseup',()=>dragging=false);
+  window.addEventListener('touchend',()=>dragging=false);
+  window.addEventListener('mousemove',e=>{if(dragging)setPos(e.clientX);});
+  window.addEventListener('touchmove',e=>{if(dragging)setPos(e.touches[0].clientX);});
+})();
+
+// ── TIMELINE ──────────────────────────────────────────────────
+const timelineData=[
+  {year:'1952',type:'cuba',title:'Batista Coup',text:'Fulgencio Batista seizes power in a bloodless coup, suspending Cuba\'s constitution and establishing an authoritarian government.'},
+  {year:'1953',type:'cuba',title:'Moncada Barracks Attack',text:'Fidel Castro leads 160 rebels in an attack on the Moncada Barracks. The assault fails; Castro is imprisoned but delivers his famous "History Will Absolve Me" speech.'},
+  {year:'1955',type:'cuba',title:'Castro in Exile',text:'Released under amnesty, Castro travels to Mexico and reorganises his movement, founding the 26th of July Movement and training a guerrilla force.'},
+  {year:'1956',type:'cuba',title:'Granma Landing',text:'Castro and 81 rebels, including Che Guevara, land in eastern Cuba. After ambush, survivors retreat to the Sierra Maestra and begin guerrilla warfare.'},
+  {year:'1959',type:'cuba',title:'Triumph of the Revolution',text:'Batista flees on New Year\'s Eve. Castro enters Havana on 1 January 1959. The revolutionary government begins sweeping social and economic reforms.'},
+  {year:'1960',type:'caribbean',title:'Caribbean Eyes Turn to Havana',text:'Caribbean leftist movements begin drawing inspiration from Cuba\'s example. Intellectual figures across the region debate the meaning of Cuba\'s success for post-independence Caribbean politics.'},
+  {year:'1961',type:'cuba',title:'Bay of Pigs',text:'A CIA-backed invasion by Cuban exiles is defeated at the Bay of Pigs. Cuba declares itself socialist, deepening Cold War tensions and strengthening revolutionary prestige in the Caribbean.'},
+  {year:'1962',type:'cuba',title:'Cuban Missile Crisis',text:'The USSR places nuclear missiles in Cuba, triggering a 13-day standoff with the United States. Cuba becomes the centre of global Cold War tension.'},
+  {year:'1968',type:'caribbean',title:'Rodney Riots, Jamaica',text:'Walter Rodney is banned from Jamaica by the government. His expulsion sparks the Rodney Riots — connecting Black Power and Cuban revolutionary influence among Jamaican youth.'},
+  {year:'1970',type:'caribbean',title:'February Revolution, Trinidad',text:'The Black Power movement in Trinidad and Tobago leads mass protests demanding economic justice. Cuban revolutionary rhetoric heavily influences the movement\'s language and demands.'},
+  {year:'1972',type:'caribbean',title:'PNP Government, Jamaica',text:'Michael Manley\'s People\'s National Party wins Jamaica\'s election on a democratic socialist platform, deepening ties with Cuba and drawing on Caribbean revolutionary thought.'},
+  {year:'1979',type:'caribbean',title:'New Jewel Movement, Grenada',text:'Maurice Bishop\'s New Jewel Movement overthrows the Gairy government in Grenada, establishing the People\'s Revolutionary Government openly inspired by the Cuban model.'},
+  {year:'1983',type:'caribbean',title:'US Invasion of Grenada',text:'The United States invades Grenada following an internal coup in which Bishop is killed. The Grenada Revolution ends. Cuban construction workers building the international airport resist the invasion.'},
+];
+let currentTrack='cuba';
+function switchTimeline(track){
+  currentTrack=track;
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{b.classList.toggle('active',['cuba','caribbean','both'][i]===track);});
+  renderTimeline();
+}
+function renderTimeline(){
+  const container=document.getElementById('timelineTrack');
+  const filtered=currentTrack==='both'?timelineData:timelineData.filter(e=>e.type===currentTrack);
+  container.innerHTML=filtered.map((e,i)=>`
+    <div class="t-event" data-year="${e.year}" style="transition-delay:${i*0.05}s">
+      <div class="t-dot"></div>
+      <span class="t-tag ${e.type}">${e.type==='cuba'?'Cuba':'Caribbean'}</span>
+      <h4>${e.title}</h4>
+      <p>${e.text}</p>
+    </div>
+  `).join('');
+  setTimeout(()=>{container.querySelectorAll('.t-event').forEach(el=>el.classList.add('visible'));},50);
+}
+renderTimeline();
+
+// ── PROFILES ──────────────────────────────────────────────────
+const profiles=[
+  {
+    photo:'images/fidel3.jpg',
+    emoji:'✊',name:'Fidel Castro',dates:'1926 – 2016',
+    teaser:'Leader of the Cuban Revolution and Prime Minister of Cuba from 1959 to 2008.',
+    full:'Fidel Alejandro Castro Ruz was a Cuban revolutionary leader who served as Prime Minister from 1959 to 1976 and President from 1976 to 2008. A trained lawyer, Castro organised the 26th of July Movement and led the guerrilla campaign in the Sierra Maestra that ultimately toppled Batista. His government implemented sweeping land reform, universal healthcare, and mass literacy campaigns, while aligning Cuba with the Soviet Union during the Cold War.',
+    quote:'"Condemn me. It does not matter. History will absolve me."',
+    citation:'Photo: U.S. Department of Defense / Wikimedia Commons · Public Domain'
+  },
+  {
+    photo:'images/Che_Guevara.jpg',
+    emoji:'⭐',name:'Che Guevara',dates:'1928 – 1967',
+    teaser:'Argentine revolutionary and key figure in the Cuban guerrilla campaign.',
+    full:'Ernesto "Che" Guevara was an Argentine Marxist revolutionary, physician, author, and guerrilla leader who became a central figure in the Cuban Revolution. He played a crucial role in the Sierra Maestra campaign and later served in Castro\'s government. After leaving Cuba in 1965 to spread revolution internationally, Guevara was captured and executed in Bolivia in 1967. He remains a global symbol of revolutionary struggle.',
+    quote:'"The revolution is not an apple that falls when it is ripe. You have to make it fall."',
+    citation:'Photo: Alberto Korda / Wikimedia Commons · Public Domain in most jurisdictions'
+  },
+  {
+    photo:'images/Maurice_Bishop.jpg',
+    emoji:'🌹',name:'Maurice Bishop',dates:'1944 – 1983',
+    teaser:'Prime Minister of Grenada and leader of the New Jewel Movement.',
+    full:'Maurice Bishop was the Prime Minister of Grenada who led the New Jewel Movement to power in 1979, establishing the People\'s Revolutionary Government. Bishop admired the Cuban Revolution and developed close ties with Cuba, which provided assistance for Grenada\'s development including construction of an international airport. Bishop was executed during an internal party coup in October 1983, shortly before the United States invaded Grenada.',
+    quote:'"We are not in somebody\'s backyard. We are in our own front yard."',
+    citation:'Photo: Wikimedia Commons · Public Domain'
+  },
+  {
+    photo:'images/Walter_Rodney.jpg',
+    emoji:'📚',name:'Walter Rodney',dates:'1942 – 1980',
+    teaser:'Guyanese historian and activist whose Black Power work linked Caribbean and Cuban revolutionary thought.',
+    full:'Walter Rodney was a Guyanese historian, political activist, and author whose work connected Caribbean Black Power movements to broader anti-colonial struggle. His expulsion from Jamaica in 1968 triggered the Rodney Riots and galvanised Jamaican youth. His seminal work "How Europe Underdeveloped Africa" (1972) became foundational to Caribbean and African liberation thought. Rodney was assassinated in Guyana in 1980.',
+    quote:'"The black man in the Caribbean... was a colonial subject. He continues to be one, though the form has changed."',
+    citation:'Photo: Wikimedia Commons · Public Domain'
+  },
+  {
+    photo:'images/Michael_Manley.jpg',
+    emoji:'🎸',name:'Michael Manley',dates:'1924 – 1997',
+    teaser:'Democratic socialist Prime Minister of Jamaica, 1972–80, who built ties with revolutionary Cuba.',
+    full:'Michael Norman Manley served as Prime Minister of Jamaica from 1972 to 1980 and again from 1989 to 1992. A democratic socialist, Manley developed warm relations with Fidel Castro and drew on Caribbean revolutionary thought in his domestic policies. His government launched social programmes including land reform and free secondary education. He represented a distinct Caribbean path — inspired by but distinct from the Cuban model.',
+    quote:'"Small nations must have the right to choose their own destiny."',
+    citation:'Photo: Wikimedia Commons · Public Domain'
+  },
+  {
+    photo:'images/cuba.jpg',
+    name:'Fulgencio Batista',dates:'1901 – 1973',
+    teaser:'Cuban dictator whose authoritarian rule made revolution inevitable.',
+    full:'Fulgencio Batista y Zaldívar served as Cuba\'s president twice — first from 1940 to 1944, then as dictator following his 1952 coup. His second government was characterised by corruption, brutal repression through the secret police, and close alignment with American business interests. The inequality and injustice of his regime created the conditions for the revolutionary movement. Batista fled Cuba on 31 December 1958.',
+    quote:'[No famous quote — history remembers Batista through the revolution he made inevitable.]',
+    citation:'Photo: Wikimedia Commons · Public Domain'
+  },
+];
+
+const grid=document.getElementById('profilesGrid');
+profiles.forEach((p,i)=>{
+  const card=document.createElement('div');
+  card.className='profile-card reveal';
+  card.style.transitionDelay=`${i*0.08}s`;
+  card.onclick=()=>openModal(i);
+  card.innerHTML=`
+    <img src="${p.photo}" alt="${p.name}" class="profile-avatar"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="profile-avatar-placeholder" style="display:none">${p.emoji}</div>
+    <div class="profile-body">
+      <div class="profile-name">${p.name}</div>
+      <div class="profile-dates">${p.dates}</div>
+      <div class="profile-teaser">${p.teaser}</div>
+      <button class="profile-expand-btn">Read Full Profile ↗</button>
+    </div>
+  `;
+  grid.appendChild(card);
+  io.observe(card);
+});
+
+function openModal(i){
+  const p=profiles[i];
+  const photoEl=document.getElementById('modalPhoto');
+  const emojiEl=document.getElementById('modalEmoji');
+  photoEl.src=p.photo;
+  photoEl.alt=p.name;
+  photoEl.style.display='block';
+  photoEl.onerror=function(){
+    this.style.display='none';
+    emojiEl.textContent=p.emoji;
+    emojiEl.style.display='block';
+  };
+  emojiEl.style.display='none';
+  document.getElementById('modalName').textContent=p.name;
+  document.getElementById('modalDates').textContent=p.dates;
+  document.getElementById('modalText').innerHTML=p.full+'<br><br><small style="color:var(--lightgrey);font-style:italic;font-size:0.78rem">'+p.citation+'</small>';
+  document.getElementById('modalQuote').textContent=p.quote;
+  document.getElementById('profileModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(e){if(e.target===document.getElementById('profileModal'))closeModalDirect();}
+function closeModalDirect(){
+  document.getElementById('profileModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ── QUIZ ──────────────────────────────────────────────────────
+const quizData=[
+  {q:'On what date did Fidel Castro enter Havana triumphantly after Batista fled?',opts:['26 July 1953','1 January 1959','17 April 1961','28 October 1962'],ans:1,fb:'Batista fled on New Year\'s Eve 1958. Castro entered Havana on 1 January 1959 — a date that has become iconic in Cuban and Caribbean history.'},
+  {q:'What was the name of the yacht that carried Castro and his rebels to Cuba in December 1956?',opts:['La Revolución','Sierra Maestra','Granma','Moncada'],ans:2,fb:'The Granma carried 82 rebels from Mexico to Cuba on 25 November 1956. The yacht is now a national monument in Havana and lent its name to a Cuban province and newspaper.'},
+  {q:'Which Caribbean leader led the New Jewel Movement that came to power in Grenada in 1979?',opts:['Michael Manley','Walter Rodney','Eric Williams','Maurice Bishop'],ans:3,fb:'Maurice Bishop led the NJM to power in a coup against the Gairy government in March 1979. He was executed during an internal party power struggle in October 1983, shortly before the US invasion.'},
+  {q:'Walter Rodney\'s expulsion from Jamaica in 1968 triggered what event?',opts:['The February Revolution','The Rodney Riots','The Bay of Pigs','The Moncada Attack'],ans:1,fb:'The Jamaican government banned Rodney — a Guyanese historian and Black Power advocate — from re-entering Jamaica in October 1968. This sparked the "Rodney Riots" among students and the urban poor.'},
+  {q:'Which Caribbean island did Cuba assist with building an international airport, later completed by the US after a 1983 invasion?',opts:['Jamaica','Barbados','Trinidad','Grenada'],ans:3,fb:'Cuba sent construction workers to help build the Point Salines International Airport in Grenada. When the US invaded in October 1983, Cuban workers on the site resisted before surrendering.'},
+  {q:'What was the name of Fidel Castro\'s famous defence speech delivered at his 1953 trial?',opts:['History Will Absolve Me','Socialism or Death','The Revolution Begins Now','The Sierra Maestra Manifesto'],ans:0,fb:'"History Will Absolve Me" was Castro\'s defence speech at his trial following the Moncada Barracks attack. It became a foundational document of the Cuban Revolution and was secretly distributed as a political pamphlet.'},
+];
+let qIdx=0,score=0,answered=false;
+function renderQuiz(){
+  const q=quizData[qIdx];
+  document.getElementById('quizProgress').style.width=(qIdx/quizData.length*100)+'%';
+  document.getElementById('quizContent').innerHTML=`
+    <div class="quiz-q-num">Question ${qIdx+1} of ${quizData.length}</div>
+    <div class="quiz-question">${q.q}</div>
+    <div class="quiz-options">
+      ${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="answerQuiz(${i})">${o}</button>`).join('')}
+    </div>
+    <div class="quiz-feedback" id="qfb"></div>
+    <button class="quiz-next" id="qnext" onclick="nextQ()">${qIdx===quizData.length-1?'See Results →':'Next Question →'}</button>
+  `;
+  answered=false;
+}
+function answerQuiz(i){
+  if(answered)return;answered=true;
+  const q=quizData[qIdx];
+  const opts=document.querySelectorAll('.quiz-opt');
+  opts.forEach(o=>o.disabled=true);
+  const fb=document.getElementById('qfb');
+  if(i===q.ans){score++;opts[i].classList.add('correct');fb.className='quiz-feedback correct-fb show';fb.textContent='✓ Correct! '+q.fb;}
+  else{opts[i].classList.add('wrong');opts[q.ans].classList.add('correct');fb.className='quiz-feedback wrong-fb show';fb.textContent='✗ Not quite. '+q.fb;}
+  document.getElementById('qnext').classList.add('show');
+}
+function nextQ(){
+  qIdx++;
+  if(qIdx>=quizData.length){
+    document.getElementById('quizProgress').style.width='100%';
+    const msgs=['Excellent work!','Well done!','Keep studying!','Great effort!'];
+    const msg=score>=5?msgs[0]:score>=3?msgs[1]:score>=2?msgs[2]:msgs[3];
+    document.getElementById('quizContent').innerHTML=`
+      <div class="quiz-result show">
+        <div class="score-big">${score}/${quizData.length}</div>
+        <p>${msg} You answered ${score} out of ${quizData.length} questions correctly.</p>
+        <button class="quiz-restart" onclick="restartQuiz()">Try Again</button>
+      </div>
+    `;
+  } else renderQuiz();
+}
+function restartQuiz(){qIdx=0;score=0;renderQuiz();}
+renderQuiz();
+
+// ── COMMENTS ─────────────────────────────────────────────────
+const seedComments=[
+  {name:'Alicia M.',text:'The Cuban Revolution remains deeply relevant — Caribbean nations still grapple with the same questions of sovereignty and economic dependence that drove the revolution in the first place.'},
+  {name:'Dr. Peters',text:'An important nuance: we must distinguish between Cuba as an ideal and Cuba as a reality. The revolution\'s achievements in healthcare and literacy are genuine, but its authoritarian character cannot be overlooked.'},
+];
+function renderComments(comments){
+  document.getElementById('commentsList').innerHTML=comments.map(c=>`
+    <div class="comment-item">
+      <div class="comment-author">${c.name}</div>
+      <div class="comment-text">${c.text}</div>
+    </div>
+  `).join('');
+}
+renderComments(seedComments);
+function postComment(){
+  const name=document.getElementById('commentName').value.trim();
+  const text=document.getElementById('commentText').value.trim();
+  if(!name||!text)return;
+  seedComments.unshift({name,text});
+  renderComments(seedComments);
+  document.getElementById('commentName').value='';
+  document.getElementById('commentText').value='';
+}
+</script>
+</body>
+</html>
